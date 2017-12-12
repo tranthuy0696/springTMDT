@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.mapper.CategoryMapper">
+	<resultMap type="com.tmdt.domain.Category" id="category">
+		<id column="sub_category_id" javaType="int" property="categoryId" />
+		<result column="category_name" javaType="java.lang.String"
+			property="catagoryName" />
+		<result column="status" javaType="boolean" property="status" />
+		<result column="url" javaType="java.lang.String" property="url" />
+		<result column="category_id" javaType="int" property="id" />
+	</resultMap>
+	<select id="getListSubCategory" resultMap="category"
+		parameterType="int">
+		select * from CATEGORY where category_id=#{id}
+	</select>
+	<select id="getListCategory" resultMap="category">
+		select * from CATEGORY
+		where category_id=0
+	</select>
+	<insert id="insertCategory" parameterType="com.tmdt.domain.Category">
+		insert into
+		CATEGORY(category_name,status,category_id, url) values
+		(#{catagoryName}, #{status}, #{id}, #{url});
+	</insert>
+	<delete id="deleteCategory" parameterType="int">
+		delete from CATEGORY
+		where sub_category_id=#{categoryId}
+	</delete>
+	<delete id="deleteSubCategory" parameterType="int">
+		delete from
+		CATEGORY
+		where category_id=#{id}
+	</delete>
+
+	<update id="updateCategory" parameterType="com.tmdt.domain.Category">
+		update CATEGORY set
+		category_name=#{catagoryName},
+		status=#{status},category_id=#{id},url=#{url} where
+		sub_category_id=#{categoryId}
+	</update>
+</mapper>

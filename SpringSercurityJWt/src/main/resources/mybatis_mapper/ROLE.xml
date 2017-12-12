@@ -1,0 +1,16 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmdt.mapper.RoleMapper">
+	<resultMap type="com.tmdt.domain.Permission" id="role">
+		<id column="id" javaType="int" property="roleId" />
+		<result column="permission" javaType="java.lang.String"
+			property="authority" />
+		<result column="create_date" typeHandler="com.tmdt.config.LocalDateTimeTypeHandler"
+			property="createDate" />
+		<result column="modified_date" typeHandler="com.tmdt.config.LocalDateTimeTypeHandler"
+			property="modifiedDate" />
+	</resultMap>
+	<select id="getRoleById" resultMap="role" parameterType="int">
+		select * from PERMISSION where id=#{roleId}
+	</select>
+</mapper>

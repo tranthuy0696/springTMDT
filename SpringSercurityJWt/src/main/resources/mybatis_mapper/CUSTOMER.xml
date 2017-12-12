@@ -1,0 +1,42 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tmdt.mapper.CustomerMapper">
+	<resultMap type="com.tmdt.domain.Customer" id="customer">
+		<id column="id" javaType="int" property="customerId" />
+		<result column="name" javaType="java.lang.String" property="username" />
+		<result column="email" javaType="java.lang.String" property="email" />
+		<result column="password" javaType="java.lang.String" property="password" />
+		<result column="create_date" typeHandler="com.tmdt.config.LocalDateTimeTypeHandler"
+			property="createDate" />
+		<result column="modified_date" typeHandler="com.tmdt.config.LocalDateTimeTypeHandler"
+			property="modifiedDate" />
+		<result column="address" javaType="java.lang.String" property="address" />
+		<result column="phone_number" javaType="java.lang.String"
+			property="phoneNumber" />
+
+		<association column="permission_id" property="authority"
+			select="com.tmdt.mapper.RoleMapper.getRoleById">
+		</association>
+	</resultMap>
+	<select id="getAllCustomer" resultMap="customer" resultType="java.util.List">
+		select * from CUSTOMER
+	</select>
+
+	<select id="findByUsername" resultMap="customer" parameterType="java.lang.String"
+		resultType="com.tmdt.domain.Customer">
+		select * from CUSTOMER where name=#{username}
+	</select>
+	<select id="findByEmail" resultMap="customer" parameterType="java.lang.String"
+		resultType="com.tmdt.domain.Customer">
+		select * from CUSTOMER where email=#{email}
+	</select>
+
+	<update id="updatePassword" parameterType="java.lang.String">
+		update CUSTOMER set password=#{password} where email=#{email}
+	</update>
+	<insert id="addCustomer" parameterType="com.tmdt.domain.Customer">
+		insert into CUSTOMER (name, email,password,create_date, modified_date,
+		permission_id,address,phone_number) values(#{username}, #{email},
+		#{password},now(),now(),2, #{address}, #{phoneNumber})
+	</insert>
+</mapper>
